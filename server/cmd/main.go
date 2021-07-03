@@ -10,7 +10,11 @@ import (
 )
 
 func main() {
-	// gin.SetMode(gin.ReleaseMode)  // Uncomment when in prod
+	buildFlags := config.GetBuildFlags()
+
+	if buildFlags.IsProduction {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	router := gin.New()
 
@@ -27,7 +31,7 @@ func main() {
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
-		PORT = "8080"
+		PORT = buildFlags.Port
 	}
 
 	fmt.Print("Server started at PORT => " + PORT + "\n")
