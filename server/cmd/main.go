@@ -5,18 +5,25 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/omgupta1608/chatex/server/cmd/config"
+	"github.com/omgupta1608/chatex/server/cmd/routes"
 )
 
 func main() {
 	// gin.SetMode(gin.ReleaseMode)  // Uncomment when in prod
 
-	r := gin.New()
+	router := gin.New()
 
-	r.GET("/a", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Chatex!",
-		})
-	})
+	// Add CORS middleware
+
+	publicRoutes := router.Group("api/" + config.GetApiVersion() + "/")
+	privateRoutes := router.Group("api/" + config.GetApiVersion() + "/")
+
+	// attach auth middleware to private routes
+
+	routes.InitBaseRoute(router)
+	routes.InitPrivateRoutes(privateRoutes)
+	routes.InitPublicRoutes(publicRoutes)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
@@ -24,5 +31,5 @@ func main() {
 	}
 
 	fmt.Print("Server started at PORT => " + PORT + "\n")
-	r.Run(":" + PORT)
+	router.Run(":" + PORT)
 }
