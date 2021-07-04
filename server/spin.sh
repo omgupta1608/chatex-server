@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go run cmd/main.go "$@"
+JWT_SECRET="secret" go run cmd/main.go "$@"
