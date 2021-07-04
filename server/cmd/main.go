@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/omgupta1608/chatex/server/cmd/config"
 	"github.com/omgupta1608/chatex/server/cmd/routes"
+	database "github.com/omgupta1608/chatex/server/pkg/firebase"
 )
 
 func main() {
@@ -17,6 +18,9 @@ func main() {
 	}
 
 	router := gin.New()
+
+	// Initialize Firestore Database
+	database.InitFirestore()
 
 	// Add CORS middleware
 
