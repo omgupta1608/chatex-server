@@ -12,7 +12,7 @@ import (
 var Client *firestore.Client
 var Ctx context.Context
 
-func init() {
+func InitFirestore() {
 	Ctx = context.Background()
 	serviceAccountKeyPath, _ := filepath.Abs("./serviceAccountKey.json")
 	sa := option.WithCredentialsFile(serviceAccountKeyPath)

@@ -16,3 +16,6 @@
 
 # vendor
 vendor/
+
+# firebase
+serviceAccountKey.json
