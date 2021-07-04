@@ -5,6 +5,7 @@ go 1.16
 require (
 	cloud.google.com/go/firestore v1.5.0
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
