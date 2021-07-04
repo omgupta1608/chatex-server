@@ -2,7 +2,7 @@ package types
 
 type User struct {
 	Name       string
-	Status     string
+	About      string
 	Email      string
 	Password   string
 	ProfilePic string
