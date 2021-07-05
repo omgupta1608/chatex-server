@@ -42,6 +42,25 @@
 				"error":              Relevant error from the server, if any (can be NULL),
 		}
 		```
+ - Login a user
+	 - ` /api/v/register/verify `
+	 - Public API
+	 - POST
+	 - POST Body
+	  ```
+		{
+				"email":								User's email id. Required,
+				"password":							User's password. Required,
+		}
+		```
+	 - Response
+	  ```
+		{
+				"data":               unique jwt token for user auth,
+				"message":            Relevant message from the server,
+				"error":              Relevant error from the server, if any (can be NULL),
+		}
+		```
  - Get User By Id
    - ` /api/v/user/:uid `
    - Private API
