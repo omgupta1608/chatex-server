@@ -1,5 +1,7 @@
 # chatex-server
 
+Find API Docs [here](https://github.com/omgupta1608/chatex/blob/master/server/docs/API_DOCS.md)
+
 ## Requirements
  - go > 1.12
 
