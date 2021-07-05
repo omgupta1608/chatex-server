@@ -8,6 +8,7 @@ import (
 	"github.com/omgupta1608/chatex/server/cmd/config"
 	"github.com/omgupta1608/chatex/server/cmd/routes"
 	database "github.com/omgupta1608/chatex/server/pkg/firebase"
+	"github.com/omgupta1608/chatex/server/pkg/middleware/cors"
 )
 
 func main() {
@@ -19,10 +20,11 @@ func main() {
 
 	router := gin.New()
 
+	// Add CORS middleware
+	router.Use(cors.AddCORSMiddleware())
+
 	// Initialize Firestore Database
 	database.InitFirestore()
-
-	// Add CORS middleware
 
 	publicRoutes := router.Group("api/" + config.GetApiVersion() + "/")
 	privateRoutes := router.Group("api/" + config.GetApiVersion() + "/")
