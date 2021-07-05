@@ -1,9 +1,22 @@
 package config
 
-import "flag"
+import (
+	"errors"
+	"flag"
+	"os"
+)
 
 func GetApiVersion() string {
 	return "v1"
+}
+
+func GetJwtSecret() []byte {
+	secretKey := os.Getenv("JWT_SECRET")
+	if secretKey == "" {
+		panic(errors.New("JWT_SECRET must be set as environment var"))
+	}
+
+	return []byte(secretKey)
 }
 
 // get build flags from command line args
