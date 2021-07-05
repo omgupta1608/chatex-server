@@ -14,5 +14,6 @@ func InitPublicRoutes(router *gin.RouterGroup) {
 }
 
 func InitPrivateRoutes(router *gin.RouterGroup) {
-
+	// Get User By Id Route
+	router.GET("/user/:uid", handlers.GetUserById)
 }
