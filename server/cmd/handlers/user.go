@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/omgupta1608/chatex/server/pkg/error"
+	"github.com/omgupta1608/chatex/server/pkg/exception"
 	"github.com/omgupta1608/chatex/server/pkg/firebase"
 )
 
@@ -16,14 +16,14 @@ func GetUserById(c *gin.Context) {
 	uid, ok := c.Params.Get("uid")
 
 	if !ok {
-		error.SendError(c, 403, errors.New("no user id provided"))
+		exception.SendError(c, 403, errors.New("no user id provided"))
 		return
 	}
 
 	dbsnapshot, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
 
 	if err != nil {
-		error.SendError(c, 500, nil)
+		exception.SendError(c, 500, nil)
 		return
 	}
 
