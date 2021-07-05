@@ -39,7 +39,6 @@ func RegisterRouteHandler(c *gin.Context) {
 	if user.About == "" {
 		user.About = "Hello there!! I'm using ChatX"
 	}
-	user.Verified = false
 	// TODO: add a default profile Pic
 
 	// TODO: store this user in redis and wait for verification
