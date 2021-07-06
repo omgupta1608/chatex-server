@@ -18,21 +18,15 @@ var UserList []types.User
 
 func RegisterRouteHandler(c *gin.Context) {
 	// user data from request body
-	var reqBody struct {
-		Name     string `json:"name" validate:"required,min=3,max=15"`
-		About    string `json:"about" validate:"required,min=3,max=40"`
-		Email    string `json:"email" validate:"required,email"`
-		Password string `json:"password" validate:"required,min=8,max=40"`
-	}
-
-	err := c.BindJSON(&reqBody)
+	var reqData types.RegisterReqData
+	err := c.BindJSON(&reqData)
 	if err != nil {
 		exception.SendError(c, http.StatusBadRequest, errors.New("Bad JSON format"))
 		return
 	}
 
 	// TODO: sanitize client input
-	errFields, invalidValidationError := validation.ValidateReqData(&reqBody)
+	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
 	if invalidValidationError != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
 		return
@@ -43,7 +37,7 @@ func RegisterRouteHandler(c *gin.Context) {
 	}
 
 	// initialize/generate user data
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(reqBody.Password), 10)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(reqData.Password), 10)
 	if err != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("Could not hash the password"))
 		return
@@ -52,9 +46,9 @@ func RegisterRouteHandler(c *gin.Context) {
 	// create a new user
 	newUser := types.User{
 		Uid:        xid.New().String(),
-		Name:       reqBody.Name,
-		About:      reqBody.About,
-		Email:      reqBody.Email,
+		Name:       reqData.Name,
+		About:      reqData.About,
+		Email:      reqData.Email,
 		Password:   string(hashedPassword),
 		ProfilePic: "", // TODO: add a default profile Pic,
 	}

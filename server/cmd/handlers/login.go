@@ -15,20 +15,15 @@ import (
 )
 
 func LoginRouteHandler(c *gin.Context) {
-	// request body
-	var reqBody struct {
-		Email    string `json:"email" validate:"required,email"`
-		Password string `json:"password" validate:"required,min=8,max=30"`
-	}
-
-	if err := c.BindJSON(&reqBody); err != nil {
+	var reqData types.LoginReqData
+	if err := c.BindJSON(&reqData); err != nil {
 		exception.SendError(c, http.StatusBadRequest, errors.New("Bad JSON format"))
 		return
 	}
 
 	// Never trust client side data
 	// TODO: sanitize client input
-	errFields, invalidValidationError := validation.ValidateReqData(&reqBody)
+	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
 	if invalidValidationError != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
 		return
@@ -38,14 +33,14 @@ func LoginRouteHandler(c *gin.Context) {
 		return
 	}
 
-	user, httpStatusCode, err := getUserByEmail(c, reqBody.Email)
+	user, httpStatusCode, err := getUserByEmail(c, reqData.Email)
 	if err != nil {
 		exception.SendError(c, httpStatusCode, err)
 		return
 	}
 
 	// verify password
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(reqBody.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(reqData.Password))
 	if err != nil {
 		exception.SendError(c, http.StatusUnauthorized, errors.New("Email Or Password is invalid"))
 		return

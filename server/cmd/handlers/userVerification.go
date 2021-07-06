@@ -13,17 +13,14 @@ import (
 )
 
 func UserVerificationRouteHandler(c *gin.Context) {
-	// parse request body
-	var body struct {
-		Uid              string `json:"uid" validate:"required,len=20"`
-		VerificationCode string `json:"verification_code" validate:"required,len=6"`
-	}
-	if err := c.BindJSON(&body); err != nil {
+	// parse request reqData
+	var reqData types.UserVerificationReqData
+	if err := c.BindJSON(&reqData); err != nil {
 		exception.SendError(c, http.StatusBadRequest, errors.New("Bad JSON format"))
 		return
 	}
 
-	errFields, invalidValidationError := validation.ValidateReqData(&body)
+	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
 	if invalidValidationError != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
 		return
@@ -37,7 +34,7 @@ func UserVerificationRouteHandler(c *gin.Context) {
 	isVerified := false
 	var user types.User
 	for _, u := range UserList {
-		if u.Uid == body.Uid {
+		if u.Uid == reqData.Uid {
 			isVerified = true
 			user = u
 			break
