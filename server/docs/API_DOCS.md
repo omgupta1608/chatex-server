@@ -1,6 +1,7 @@
 # API Docs
 
 ## User APIs
+ - Request data validation info can be found at `pkg/types/reqData`
  - Register a user
 	 - ` /api/v/register `
 	 - Public API
