@@ -17,9 +17,14 @@ var UserList []types.User
 
 func RegisterRouteHandler(c *gin.Context) {
 	// user data from request body
-	var user types.User
+	var reqBody struct {
+		Name     string `json:"name"`
+		About    string `json:"about"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
 
-	err := c.BindJSON(&user)
+	err := c.BindJSON(&reqBody)
 	if err != nil {
 		exception.SendError(c, http.StatusBadRequest, errors.New("Bad JSON format"))
 		return
@@ -29,26 +34,33 @@ func RegisterRouteHandler(c *gin.Context) {
 	// TODO: validate client input
 
 	// initialize/generate user data
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(reqBody.Password), 10)
 	if err != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("Could not hash the password"))
 		return
 	}
-	user.Password = string(hashedPassword)
-	user.Uid = xid.New().String()
-	if user.About == "" {
-		user.About = "Hello there!! I'm using ChatX"
+
+	// create a new user
+	newUser := types.User{
+		Uid:        xid.New().String(),
+		Name:       reqBody.Name,
+		About:      reqBody.About,
+		Email:      reqBody.Email,
+		Password:   string(hashedPassword),
+		ProfilePic: "", // TODO: add a default profile Pic,
 	}
-	// TODO: add a default profile Pic
+	if newUser.About == "" {
+		newUser.About = "Hello there!! I'm using ChatX"
+	}
 
 	// TODO: store this user in redis and wait for verification
-	UserList = append(UserList, user)
+	UserList = append(UserList, newUser)
 
 	// TODO: create a verification token & send through email
 	// TODO: store verify token in redis
 
 	c.JSON(http.StatusCreated, gin.H{
-		"data":               user.Uid,
+		"data":               newUser.Uid,
 		"message":            "User created",
 		"error":              nil,
 		"verification-route": c.FullPath() + "/verify",
