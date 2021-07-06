@@ -29,6 +29,8 @@ func GetUserById(c *gin.Context) {
 
 	user := dbsnapshot.Data()
 
+	delete(user, "Password")
+
 	c.JSON(http.StatusOK, gin.H{
 		"data":    user,
 		"message": "",
