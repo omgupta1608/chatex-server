@@ -16,4 +16,7 @@ func InitPublicRoutes(router *gin.RouterGroup) {
 func InitPrivateRoutes(router *gin.RouterGroup) {
 	// Get User By Id Route
 	router.GET("/user/:uid", handlers.GetUserById)
+	router.POST("/user/edit/:uid", handlers.EditUserProfile)
+	router.POST("/user/change-password/:uid", handlers.ChangePassword)
+	router.POST("/user/delete-account/:uid", handlers.DeleteUserById)
 }
