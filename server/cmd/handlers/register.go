@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/omgupta1608/chatex/server/pkg/exception"
 	"github.com/omgupta1608/chatex/server/pkg/types"
+	"github.com/omgupta1608/chatex/server/pkg/validation"
 	"github.com/rs/xid"
 )
 
@@ -18,10 +19,10 @@ var UserList []types.User
 func RegisterRouteHandler(c *gin.Context) {
 	// user data from request body
 	var reqBody struct {
-		Name     string `json:"name"`
-		About    string `json:"about"`
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Name     string `json:"name" validate:"required,min=3,max=15"`
+		About    string `json:"about" validate:"required,min=3,max=40"`
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required,min=8,max=40"`
 	}
 
 	err := c.BindJSON(&reqBody)
@@ -31,7 +32,15 @@ func RegisterRouteHandler(c *gin.Context) {
 	}
 
 	// TODO: sanitize client input
-	// TODO: validate client input
+	errFields, invalidValidationError := validation.ValidateReqData(&reqBody)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
+		return
+	}
 
 	// initialize/generate user data
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(reqBody.Password), 10)
