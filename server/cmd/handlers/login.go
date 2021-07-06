@@ -76,7 +76,7 @@ func getUserByEmail(c *gin.Context, email string) (user *types.User, httpStatusC
 	}
 
 	// unmarshal user
-	err = doc.DataTo(user)
+	err = doc.DataTo(&user)
 	if err != nil {
 		err = errors.New("Database error")
 		return nil, http.StatusInternalServerError, err
