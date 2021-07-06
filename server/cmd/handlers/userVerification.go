@@ -9,16 +9,27 @@ import (
 	"github.com/omgupta1608/chatex/server/pkg/firebase"
 	"github.com/omgupta1608/chatex/server/pkg/middleware/jwt"
 	"github.com/omgupta1608/chatex/server/pkg/types"
+	"github.com/omgupta1608/chatex/server/pkg/validation"
 )
 
 func UserVerificationRouteHandler(c *gin.Context) {
 	// parse request body
 	var body struct {
-		Uid              string `json:"uid"`
-		VerificationCode string `json:"verification_code"`
+		Uid              string `json:"uid" validate:"required,len=20"`
+		VerificationCode string `json:"verification_code" validate:"required,len=6"`
 	}
 	if err := c.BindJSON(&body); err != nil {
 		exception.SendError(c, http.StatusBadRequest, errors.New("Bad JSON format"))
+		return
+	}
+
+	errFields, invalidValidationError := validation.ValidateReqData(&body)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
 		return
 	}
 
