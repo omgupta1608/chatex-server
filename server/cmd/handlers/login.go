@@ -9,6 +9,7 @@ import (
 	"github.com/omgupta1608/chatex/server/pkg/firebase"
 	"github.com/omgupta1608/chatex/server/pkg/middleware/jwt"
 	"github.com/omgupta1608/chatex/server/pkg/types"
+	"github.com/omgupta1608/chatex/server/pkg/validation"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/api/iterator"
 )
@@ -16,8 +17,8 @@ import (
 func LoginRouteHandler(c *gin.Context) {
 	// request body
 	var reqBody struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required,min=8,max=30"`
 	}
 
 	if err := c.BindJSON(&reqBody); err != nil {
@@ -25,8 +26,17 @@ func LoginRouteHandler(c *gin.Context) {
 		return
 	}
 
+	// Never trust client side data
 	// TODO: sanitize client input
-	// TODO: validate client input
+	errFields, invalidValidationError := validation.ValidateReqData(&reqBody)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
+		return
+	}
 
 	user, httpStatusCode, err := getUserByEmail(c, reqBody.Email)
 	if err != nil {
