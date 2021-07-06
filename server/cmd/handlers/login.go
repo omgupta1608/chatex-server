@@ -28,8 +28,9 @@ func LoginRouteHandler(c *gin.Context) {
 	// TODO: sanitize client input
 	// TODO: validate client input
 
-	user, err := getUserByEmail(c, reqBody.Email)
+	user, httpStatusCode, err := getUserByEmail(c, reqBody.Email)
 	if err != nil {
+		exception.SendError(c, httpStatusCode, err)
 		return
 	}
 
@@ -55,29 +56,26 @@ func LoginRouteHandler(c *gin.Context) {
 }
 
 // search firestore for user with given email
-func getUserByEmail(c *gin.Context, email string) (user *types.User, err error) {
+func getUserByEmail(c *gin.Context, email string) (user *types.User, httpStatusCode int, err error) {
 	iter := firebase.Client.Collection("Users").Where("Email", "==", email).Documents(firebase.Ctx)
 	doc, err := iter.Next()
 
 	// user not found
 	if err == iterator.Done {
 		err = errors.New("Email Or Password is invalid")
-		exception.SendError(c, http.StatusUnauthorized, err)
-		return nil, err
+		return nil, http.StatusUnauthorized, err
 	}
 	if err != nil {
 		err = errors.New("Database error")
-		exception.SendError(c, http.StatusInternalServerError, err)
-		return nil, err
+		return nil, http.StatusInternalServerError, err
 	}
 
 	// unmarshal user
 	err = doc.DataTo(user)
 	if err != nil {
 		err = errors.New("Database error")
-		exception.SendError(c, http.StatusInternalServerError, err)
-		return nil, err
+		return nil, http.StatusInternalServerError, err
 	}
 
-	return user, nil
+	return user, http.StatusOK, nil
 }
