@@ -18,12 +18,12 @@ type UserVerificationReqData struct {
 }
 
 type EditUserProfileReqData struct {
-	Name       string `json:"name,string"`
-	About      string `json:"about,string"`
-	ProfilePic string `json:"profile_pic,string"`
+	Name       string `json:"name,string" validate:"required,min=3,max=15"`
+	About      string `json:"about,string" validate:"required,min=3,max=40"`
+	ProfilePic string `json:"profile_pic,string" validate:"uri"`
 }
 
 type ChangePasswordReqData struct {
-	OldPassword string `json:"old_password,string"`
-	NewPassword string `json:"new_password,string"`
+	OldPassword string `json:"old_password" validate:"required,min=8,max=40"`
+	NewPassword string `json:"new_password" validate:"required,min=8,max=40"`
 }
