@@ -29,3 +29,12 @@ func SendError(c *gin.Context, code int, err error) {
 		})
 	}
 }
+
+func SendValidationError(c *gin.Context, errorFieldsList []string) {
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"data":         nil,
+		"message":      "Bad Request",
+		"error":        "Invalid Input",
+		"error_fields": errorFieldsList,
+	})
+}
