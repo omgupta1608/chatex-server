@@ -16,3 +16,14 @@ type UserVerificationReqData struct {
 	Uid              string `json:"uid" validate:"required,len=20"`
 	VerificationCode string `json:"verification_code" validate:"required,len=6"`
 }
+
+type EditUserProfileReqData struct {
+	Name       string `json:"name,string"`
+	About      string `json:"about,string"`
+	ProfilePic string `json:"profile_pic,string"`
+}
+
+type ChangePasswordReqData struct {
+	OldPassword string `json:"old_password,string"`
+	NewPassword string `json:"new_password,string"`
+}
