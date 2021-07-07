@@ -74,3 +74,54 @@
         error:      Relevant error from the server, if any (can be NULL)
     } 
     ```
+ - Edit User Profile
+   - ` /api/v/user/edit/:uid `
+   - Private API
+   - POST
+   - POST Body
+    ```
+    {
+        "name":       user's name
+        "about":    User's about
+        "profile_pic":      user's profile pic URL
+    } 
+    ```
+   - Response
+    ```
+    {
+        data:       Data that is requested (details of the user with id uid)
+        message:    Relevant message from the server
+        error:      Relevant error from the server, if any (can be NULL)
+    } 
+    ```
+ - Change User Password
+   - ` /api/v/user/change-password/:uid `
+   - Private API
+   - POST
+   - POST Body
+    ```
+    {
+        "old_password": User's current password
+		"new_password": The new password
+    } 
+    ```
+   - Response
+    ```
+    {
+        data:       Data that is requested (details of the user with id uid)
+        message:    Relevant message from the server
+        error:      Relevant error from the server, if any (can be NULL)
+    } 
+    ```
+ - Delete User By Id
+   - ` /api/v/user/delete-account/:uid `
+   - Private API
+   - DELETE
+   - Response
+    ```
+    {
+        data:       Data that is requested (details of the user with id uid)
+        message:    Relevant message from the server
+        error:      Relevant error from the server, if any (can be NULL)
+    } 
+    ```

@@ -20,4 +20,7 @@ func InitPrivateRoutes(router *gin.RouterGroup) {
 	router.Use(jwt.JWTAuthMiddleware())
 	// Get User By Id Route
 	router.GET("/user/:uid", handlers.GetUserById)
+	router.POST("/user/edit/:uid", handlers.EditUserProfile)
+	router.POST("/user/change-password/:uid", handlers.ChangePassword)
+	router.DELETE("/user/delete-account/:uid", handlers.DeleteUserById)
 }
