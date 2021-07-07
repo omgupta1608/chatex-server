@@ -24,6 +24,12 @@ func GetUserById(c *gin.Context) {
 		return
 	}
 
+	// validate uid
+	if validId := validation.ValidateID(uid); !validId {
+		exception.SendError(c, 403, errors.New("invalid user id"))
+		return
+	}
+
 	// find user with uid in DB
 	dbsnapshot, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
 
@@ -68,10 +74,16 @@ func EditUserProfile(c *gin.Context) {
 	}
 
 	// get id from params
-	ID, _ := c.Params.Get("uid")
+	uid, _ := c.Params.Get("uid")
+
+	// validate uid
+	if validId := validation.ValidateID(uid); !validId {
+		exception.SendError(c, 403, errors.New("invalid user id"))
+		return
+	}
 
 	// check if user exists
-	_, err := firebase.Client.Collection("Users").Doc(ID).Get(firebase.Ctx)
+	_, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
 
 	if err != nil {
 		exception.SendError(c, http.StatusNotFound, err)
@@ -79,7 +91,7 @@ func EditUserProfile(c *gin.Context) {
 	}
 
 	// update user in DB
-	_, err = firebase.Client.Collection("Users").Doc(ID).Set(firebase.Ctx, data, firestore.MergeAll)
+	_, err = firebase.Client.Collection("Users").Doc(uid).Set(firebase.Ctx, data, firestore.MergeAll)
 
 	if err != nil {
 		exception.SendError(c, http.StatusInternalServerError, err)
@@ -116,10 +128,16 @@ func ChangePassword(c *gin.Context) {
 	}
 
 	// get id from params
-	ID, _ := c.Params.Get("uid")
+	uid, _ := c.Params.Get("uid")
+
+	// validate uid
+	if validId := validation.ValidateID(uid); !validId {
+		exception.SendError(c, 403, errors.New("invalid user id"))
+		return
+	}
 
 	// check if user exists
-	dbsnapshot, err := firebase.Client.Collection("Users").Doc(ID).Get(firebase.Ctx)
+	dbsnapshot, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
 
 	if err != nil {
 		exception.SendError(c, http.StatusNotFound, err)
@@ -143,7 +161,7 @@ func ChangePassword(c *gin.Context) {
 	}
 
 	// update password in DB
-	_, err = firebase.Client.Collection("Users").Doc(ID).Set(firebase.Ctx, map[string]interface{}{
+	_, err = firebase.Client.Collection("Users").Doc(uid).Set(firebase.Ctx, map[string]interface{}{
 		"Password": hashedPassword,
 	}, firestore.MergeAll)
 
@@ -165,10 +183,16 @@ func ChangePassword(c *gin.Context) {
 // /api/v/user/delete-account/:uid
 func DeleteUserById(c *gin.Context) {
 	// get id from params
-	ID, _ := c.Params.Get("uid")
+	uid, _ := c.Params.Get("uid")
+
+	// validate uid
+	if validId := validation.ValidateID(uid); !validId {
+		exception.SendError(c, 403, errors.New("invalid user id"))
+		return
+	}
 
 	// delete user from DB
-	_, err := firebase.Client.Collection("Users").Doc(ID).Delete(firebase.Ctx)
+	_, err := firebase.Client.Collection("Users").Doc(uid).Delete(firebase.Ctx)
 	if err != nil {
 		exception.SendError(c, http.StatusInternalServerError, err)
 		return

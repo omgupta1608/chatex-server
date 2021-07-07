@@ -1,6 +1,10 @@
 package validation
 
-import "github.com/go-playground/validator/v10"
+import (
+	"regexp"
+
+	"github.com/go-playground/validator/v10"
+)
 
 /**
  * validate data
@@ -23,4 +27,9 @@ func ValidateReqData(reqData interface{}) (errFields []string, invalidValidation
 	}
 
 	return errFields, nil
+}
+
+func ValidateID(id string) bool {
+	match, _ := regexp.MatchString("^[0-9a-v]{20}$", id)
+	return match
 }
