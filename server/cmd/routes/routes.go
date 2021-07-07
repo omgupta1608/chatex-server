@@ -22,5 +22,5 @@ func InitPrivateRoutes(router *gin.RouterGroup) {
 	router.GET("/user/:uid", handlers.GetUserById)
 	router.POST("/user/edit/:uid", handlers.EditUserProfile)
 	router.POST("/user/change-password/:uid", handlers.ChangePassword)
-	router.POST("/user/delete-account/:uid", handlers.DeleteUserById)
+	router.DELETE("/user/delete-account/:uid", handlers.DeleteUserById)
 }
