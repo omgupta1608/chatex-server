@@ -62,17 +62,6 @@ func EditUserProfile(c *gin.Context) {
 		return
 	}
 
-	// validate user input
-	errFields, invalidValidationError := validation.ValidateReqData(&data)
-	if invalidValidationError != nil {
-		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
-		return
-	}
-	if len(errFields) != 0 {
-		exception.SendValidationError(c, errFields)
-		return
-	}
-
 	// get id from params
 	uid, _ := c.Params.Get("uid")
 
@@ -87,6 +76,17 @@ func EditUserProfile(c *gin.Context) {
 
 	if err != nil {
 		exception.SendError(c, http.StatusNotFound, err)
+		return
+	}
+
+	// validate user input
+	errFields, invalidValidationError := validation.ValidateReqData(&data)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
 		return
 	}
 
@@ -116,17 +116,6 @@ func ChangePassword(c *gin.Context) {
 		return
 	}
 
-	// validate user input
-	errFields, invalidValidationError := validation.ValidateReqData(&data)
-	if invalidValidationError != nil {
-		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
-		return
-	}
-	if len(errFields) != 0 {
-		exception.SendValidationError(c, errFields)
-		return
-	}
-
 	// get id from params
 	uid, _ := c.Params.Get("uid")
 
@@ -141,6 +130,17 @@ func ChangePassword(c *gin.Context) {
 
 	if err != nil {
 		exception.SendError(c, http.StatusNotFound, err)
+		return
+	}
+
+	// validate user input
+	errFields, invalidValidationError := validation.ValidateReqData(&data)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
 		return
 	}
 
