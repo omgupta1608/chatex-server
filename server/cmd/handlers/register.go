@@ -27,6 +27,17 @@ func RegisterRouteHandler(c *gin.Context) {
 		return
 	}
 
+	// TODO: sanitize client input
+	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
+	if invalidValidationError != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
+		return
+	}
+	if len(errFields) != 0 {
+		exception.SendValidationError(c, errFields)
+		return
+	}
+
 	// check if user with similar email/name exists
 	email_iter := firebase.Client.Collection("Users").Where("Email", "==", reqData.Email).Documents(firebase.Ctx)
 	name_iter := firebase.Client.Collection("Users").Where("Name", "==", reqData.Name).Documents(firebase.Ctx)
@@ -48,17 +59,6 @@ func RegisterRouteHandler(c *gin.Context) {
 	// default About
 	if reqData.About == "" {
 		reqData.About = "Hello there!! I'm using ChatX"
-	}
-
-	// TODO: sanitize client input
-	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
-	if invalidValidationError != nil {
-		exception.SendError(c, http.StatusInternalServerError, errors.New("InvalidValidationError"))
-		return
-	}
-	if len(errFields) != 0 {
-		exception.SendValidationError(c, errFields)
-		return
 	}
 
 	// initialize/generate user data

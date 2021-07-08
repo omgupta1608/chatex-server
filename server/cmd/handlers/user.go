@@ -65,6 +65,12 @@ func EditUserProfile(c *gin.Context) {
 	// get id from params
 	uid, _ := c.Params.Get("uid")
 
+	// validate uid
+	if validId := validation.ValidateID(uid); !validId {
+		exception.SendError(c, 403, errors.New("invalid user id"))
+		return
+	}
+
 	// check if user exists
 	_, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
 
@@ -81,12 +87,6 @@ func EditUserProfile(c *gin.Context) {
 	}
 	if len(errFields) != 0 {
 		exception.SendValidationError(c, errFields)
-		return
-	}
-
-	// validate uid
-	if validId := validation.ValidateID(uid); !validId {
-		exception.SendError(c, 403, errors.New("invalid user id"))
 		return
 	}
 
@@ -125,6 +125,14 @@ func ChangePassword(c *gin.Context) {
 		return
 	}
 
+	// check if user exists
+	dbsnapshot, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
+
+	if err != nil {
+		exception.SendError(c, http.StatusNotFound, err)
+		return
+	}
+
 	// validate user input
 	errFields, invalidValidationError := validation.ValidateReqData(&data)
 	if invalidValidationError != nil {
@@ -133,14 +141,6 @@ func ChangePassword(c *gin.Context) {
 	}
 	if len(errFields) != 0 {
 		exception.SendValidationError(c, errFields)
-		return
-	}
-
-	// check if user exists
-	dbsnapshot, err := firebase.Client.Collection("Users").Doc(uid).Get(firebase.Ctx)
-
-	if err != nil {
-		exception.SendError(c, http.StatusNotFound, err)
 		return
 	}
 
