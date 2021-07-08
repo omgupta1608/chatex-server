@@ -27,6 +27,11 @@ func RegisterRouteHandler(c *gin.Context) {
 		return
 	}
 
+	// default About
+	if reqData.About == "" {
+		reqData.About = "Hello there!! I'm using ChatX"
+	}
+
 	// TODO: sanitize client input
 	errFields, invalidValidationError := validation.ValidateReqData(&reqData)
 	if invalidValidationError != nil {
@@ -54,11 +59,6 @@ func RegisterRouteHandler(c *gin.Context) {
 	if e_err != nil || n_err != nil {
 		exception.SendError(c, http.StatusInternalServerError, errors.New("Something went wrong!"))
 		return
-	}
-
-	// default About
-	if reqData.About == "" {
-		reqData.About = "Hello there!! I'm using ChatX"
 	}
 
 	// initialize/generate user data
