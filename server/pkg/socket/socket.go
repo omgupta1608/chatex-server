@@ -12,13 +12,34 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+func createHub() *Hub {
+	return &Hub{
+		clients:    make(map[*Client]bool),
+		register:   make(chan *Client),
+		unregister: make(chan *Client),
+		event:      make(chan []byte),
+	}
+}
+
+var hub *Hub
+
+func init() {
+	hub = createHub()
+	// init the Hub
+	go hub.run()
+}
+
 func SocketHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := upgrader.Upgrade(w, r, nil)
+	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	// business logic here
+	client := &Client{conn: conn, hub: hub, send: make(chan []byte, 256)}
+
+	// readPump and writePump
+	go client.handleRead()
+	go client.handleWrite()
 }
