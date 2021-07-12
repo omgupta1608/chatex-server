@@ -1,6 +1,6 @@
-import UserForm from '../../Components/UserForm/UserForm';
-import UserFormInput from '../../Components/UserForm/UserFormInput';
-import UserFormPage from '../../Components/UserFormPage/UserFormPage';
+import UserAuthForm from '../Components/UserAuthForm';
+import UserAuthFormInput from '../Components/UserAuthFormInput';
+import UserAuthFormPage from '../Components/UserAuthFormPage';
 
 /**
  * user login page
@@ -12,31 +12,33 @@ const LoginPage = () => {
 	};
 
 	return (
-		<UserFormPage>
-			<UserForm
+		<UserAuthFormPage>
+			<UserAuthForm
 				title='Login'
 				showOrButtons={true}
 				onSubmit={onSubmit}
 				description='Login with your email and password'
 			>
-				<UserFormInput
+				<UserAuthFormInput
 					name='email'
 					id='login-email'
 					label='E-Mail'
 					type='email'
 					required={true}
+					autofocus={true}
 				/>
-				<UserFormInput
+				<UserAuthFormInput
 					name='password'
 					id='login-password'
 					label='Password'
+					type='password'
 					autoComplete='current-password'
 					minLength={8}
 					maxLength={40}
 					required={true}
 				/>
-			</UserForm>
-		</UserFormPage>
+			</UserAuthForm>
+		</UserAuthFormPage>
 	);
 };
 

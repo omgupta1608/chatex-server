@@ -1,0 +1,27 @@
+/* User Auth */
+/* User Auth Forms Components */
+@use "Components/UserFormPage.scss";
+@use "Components/UserForm.scss";
+@use "Components/UserFormInput.scss";
+@use "Components/OrButtons.scss";
+@use "Components/LoadingSpinner.scss";
+@use "Components/Navbar.scss";
+
+/* User Auth Forms Pages */
+/* nothing yet */
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.App {
+	height: 100%;
+	margin: 0;
+}

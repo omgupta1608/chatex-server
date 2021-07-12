@@ -3,7 +3,7 @@
  * @param {Object} props
  * @param {string} props.prefix ${prefix} with Google etc.
  */
-const OrButtons = ({ prefix }) => {
+const UserAuthOrButtons = ({ prefix }) => {
 	// TODO: GoogleButton
 	return (
 		<>
@@ -16,4 +16,4 @@ const OrButtons = ({ prefix }) => {
 	);
 };
 
-export default OrButtons;
+export default UserAuthOrButtons;
