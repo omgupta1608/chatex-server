@@ -25,7 +25,7 @@ const LoginPage = () => {
 					label='E-Mail'
 					type='email'
 					required={true}
-					autofocus={true}
+					autoFocus={true}
 				/>
 				<UserAuthFormInput
 					name='password'

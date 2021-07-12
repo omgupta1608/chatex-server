@@ -22,7 +22,7 @@ const RegisterPage = () => {
 					minLength={3}
 					maxLength={15}
 					required={true}
-					autofocus={true}
+					autoFocus={true}
 				/>
 				<UserAuthFormInput
 					name='email'

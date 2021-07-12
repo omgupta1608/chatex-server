@@ -27,7 +27,7 @@ const UserVerificationPage = () => {
 					minLength={6}
 					maxLength={6}
 					required={true}
-					autofocus={true}
+					autoFocus={true}
 				/>
 			</UserAuthForm>
 		</UserAuthFormPage>
