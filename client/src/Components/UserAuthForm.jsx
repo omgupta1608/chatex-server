@@ -1,6 +1,5 @@
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import OrButtons from './OrButtons';
-import './UserForm.scss';
+import LoadingSpinner from './LoadingSpinner';
+import UserAuthOrButtons from './UserAuthOrButtons';
 
 /**
  * @function
@@ -10,11 +9,11 @@ import './UserForm.scss';
  * @param {string} [props.description] form description
  * @param {boolean} [props.showOrButtons] show additional login/register option buttons
  * @param {function} props.onSubmit onSubmit event handler for form
- * @param {boolean} props.isLoading show loading spinner in submit button
- * @param {string} props.submitErrMsg Error message is form submission fails
+ * @param {boolean} [props.isLoading] show loading spinner in submit button
+ * @param {string} [props.submitErrMsg] Error message is form submission fails
  * @param {React.ReactNode} props.children form input fields
  */
-const UserForm = ({
+const UserAuthForm = ({
 	title,
 	description = '',
 	showOrButtons = false,
@@ -51,9 +50,9 @@ const UserForm = ({
 				</button>
 			</form>
 
-			{showOrButtons && <OrButtons prefix={title} />}
+			{showOrButtons && <UserAuthOrButtons prefix={title} />}
 		</div>
 	);
 };
 
-export default UserForm;
+export default UserAuthForm;

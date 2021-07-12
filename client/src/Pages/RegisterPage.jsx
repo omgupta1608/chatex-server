@@ -1,6 +1,6 @@
-import UserForm from '../../Components/UserForm/UserForm';
-import UserFormInput from '../../Components/UserForm/UserFormInput';
-import UserFormPage from '../../Components/UserFormPage/UserFormPage';
+import UserAuthForm from '../Components/UserAuthForm';
+import UserAuthFormInput from '../Components/UserAuthFormInput';
+import UserAuthFormPage from '../Components/UserAuthFormPage';
 
 /**
  * user registeration page
@@ -12,9 +12,9 @@ const RegisterPage = () => {
 	};
 
 	return (
-		<UserFormPage>
-			<UserForm title='Register' showOrButtons={true} onSubmit={onSubmit}>
-				<UserFormInput
+		<UserAuthFormPage>
+			<UserAuthForm title='Register' showOrButtons={true} onSubmit={onSubmit}>
+				<UserAuthFormInput
 					name='name'
 					id='register-name'
 					label='Name'
@@ -22,15 +22,16 @@ const RegisterPage = () => {
 					minLength={3}
 					maxLength={15}
 					required={true}
+					autoFocus={true}
 				/>
-				<UserFormInput
+				<UserAuthFormInput
 					name='email'
 					id='register-email'
 					label='E-Mail'
 					type='email'
 					required={true}
 				/>
-				<UserFormInput
+				<UserAuthFormInput
 					name='password'
 					id='register-password'
 					label='Password'
@@ -39,8 +40,8 @@ const RegisterPage = () => {
 					maxLength={40}
 					required={true}
 				/>
-			</UserForm>
-		</UserFormPage>
+			</UserAuthForm>
+		</UserAuthFormPage>
 	);
 };
 

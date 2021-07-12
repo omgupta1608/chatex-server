@@ -1,10 +1,10 @@
-import './LoadingSpinner.scss';
-
 /**
  *
  * @param {Object} props
  * @param {string} radius radius of spinner in css <length> format
  * @param {string} strokeWidth stroke of spinner in css <length> format
+ * @param {string} [strokeColor] spinner's stroke color
+ * @param {string} [fillColor] spinner's fill color
  * @returns
  */
 const LoadingSpinner = ({
@@ -21,7 +21,7 @@ const LoadingSpinner = ({
 			}}
 			className='loading-spinner'
 		>
-			<circle stroke={strokeColor} fill={fillColor} strokeWidth={strokeWidth} />
+			<circle stroke={strokeColor} fill={fillColor} />
 		</svg>
 	);
 };

@@ -1,4 +1,5 @@
 .loading-spinner {
+	// calculations are done here so user can pass length in css units
 	--radius: 1rem;
 	--stroke-width: 0.1rem;
 	--normalized-radius: calc(var(--radius) - var(--stroke-width) / 2);

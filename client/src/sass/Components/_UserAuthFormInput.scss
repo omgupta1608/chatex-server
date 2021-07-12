@@ -1,0 +1,72 @@
+@use "../variables" as v;
+
+.input-field {
+	$padding-x: 1.25rem;
+	$padding-y: 0.75rem;
+	$font-size: 1rem;
+
+	position: relative;
+	font-size: $font-size;
+	// margin for floating label
+	margin-top: $font-size + $padding-y;
+
+	& + & {
+		margin-top: 2rem;
+	}
+
+	& label {
+		position: absolute;
+		top: $padding-y;
+		left: $padding-x;
+
+		opacity: 0.8;
+		color: v.$black;
+		.theme-dark & {
+			color: v.$white;
+		}
+
+		pointer-events: none;
+		transition: 0.3s;
+	}
+
+	// float label when input is not empty
+	&:not(.input-field--empty) label {
+		top: -($font-size + $padding-y);
+		left: 0;
+		font-size: $font-size;
+		font-weight: 600;
+		opacity: 1;
+	}
+
+	& input {
+		width: 100%;
+		padding: $padding-y $padding-x;
+
+		font-size: inherit;
+
+		outline: none;
+		border: v.$input-border;
+		border-radius: v.$input-border-radius;
+
+		.theme-dark & {
+			color: v.$white;
+			background-color: v.$gray-300;
+		}
+
+		&:focus {
+			outline: v.$input-outline;
+
+			.theme-dark & {
+				outline: v.$input-outline-dark;
+			}
+		}
+	}
+
+	& small {
+		color: red;
+		font: {
+			size: smaller;
+			style: italic;
+		}
+	}
+}

@@ -1,6 +1,6 @@
-import UserForm from '../../Components/UserForm/UserForm';
-import UserFormInput from '../../Components/UserForm/UserFormInput';
-import UserFormPage from '../../Components/UserFormPage/UserFormPage';
+import UserAuthForm from '../Components/UserAuthForm';
+import UserAuthFormInput from '../Components/UserAuthFormInput';
+import UserAuthFormPage from '../Components/UserAuthFormPage';
 
 /**
  * user's email verification page
@@ -12,24 +12,25 @@ const UserVerificationPage = () => {
 	};
 
 	return (
-		<UserFormPage>
-			<UserForm
+		<UserAuthFormPage>
+			<UserAuthForm
 				title='Verify your Email'
+				// TODO: get email from router state
 				description={`We sent a 6 digit verification code to your email - email placeholder`}
 				onSubmit={onSubmit}
 			>
-				<UserFormInput
+				<UserAuthFormInput
 					name='verification_code'
 					id='user-verification-code'
 					label='Verification Code'
-					// TODO: get email from router state
 					type='text'
 					minLength={6}
 					maxLength={6}
 					required={true}
+					autoFocus={true}
 				/>
-			</UserForm>
-		</UserFormPage>
+			</UserAuthForm>
+		</UserAuthFormPage>
 	);
 };
 
