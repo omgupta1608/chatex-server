@@ -12,15 +12,6 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func createHub() *Hub {
-	return &Hub{
-		clients:    make(map[*Client]bool),
-		register:   make(chan *Client),
-		unregister: make(chan *Client),
-		event:      make(chan []byte),
-	}
-}
-
 var hub *Hub
 
 func init() {
@@ -37,7 +28,11 @@ func SocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := &Client{conn: conn, hub: hub, send: make(chan []byte, 256)}
+	// create new client
+	client := newClient(conn)
+
+	// register client
+	client.hub.register <- client
 
 	// readPump and writePump
 	go client.handleRead()
