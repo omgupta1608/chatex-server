@@ -35,10 +35,10 @@ const (
 	maxMessageSize = 1024 // configurable
 )
 
-var (
-	newline = []byte{'\n'}
-	space   = []byte{' '}
-)
+// var (
+// 	newline = []byte{'\n'}
+// 	space   = []byte{' '}
+// )
 
 func newClient(conn *websocket.Conn) *Client {
 	return &Client{conn: conn, hub: hub, send: make(chan []byte, 256)}
@@ -68,7 +68,7 @@ func (c *Client) handleRead() {
 			}
 			break
 		}
-		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
+		message = bytes.TrimSpace(message)
 		c.hub.event <- message
 	}
 }
