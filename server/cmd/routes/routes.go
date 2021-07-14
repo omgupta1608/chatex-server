@@ -15,11 +15,6 @@ func InitPublicRoutes(router *gin.RouterGroup) {
 	router.POST("/register", handlers.RegisterRouteHandler)
 	router.POST("/register/verify", handlers.UserVerificationRouteHandler)
 	router.POST("/login", handlers.LoginRouteHandler)
-
-	// TODO: Make the socket connection private, to allow only authenticated connections
-	router.GET("/ws", func(c *gin.Context) {
-		socket.SocketHandler(c.Writer, c.Request)
-	})
 }
 
 func InitPrivateRoutes(router *gin.RouterGroup) {
@@ -32,4 +27,9 @@ func InitPrivateRoutes(router *gin.RouterGroup) {
 	router.POST("/user/change-password/:uid", handlers.ChangePassword)
 	// delete user account route
 	router.DELETE("/user/delete-account/:uid", handlers.DeleteUserById)
+
+	// The request is authenticated by our middleware (as any plain HTTP request is), after successful authentication, connection is upgraded to the ws protocol
+	router.GET("/ws", func(c *gin.Context) {
+		socket.SocketHandler(c.Writer, c.Request)
+	})
 }

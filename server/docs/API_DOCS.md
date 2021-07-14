@@ -81,8 +81,8 @@
    - POST Body
     ```
     {
-        "name":       user's name
-        "about":    User's about
+        "name":             user's name
+        "about":            User's about
         "profile_pic":      user's profile pic URL
     } 
     ```
@@ -101,8 +101,8 @@
    - POST Body
     ```
     {
-        "old_password": User's current password
-		"new_password": The new password
+        "old_password":   User's current password
+		    "new_password":   The new password
     } 
     ```
    - Response
