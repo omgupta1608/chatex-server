@@ -5,6 +5,8 @@ import (
 
 	"github.com/omgupta1608/chatex/server/pkg/exception"
 	"github.com/omgupta1608/chatex/server/pkg/types"
+	"github.com/omgupta1608/chatex/server/pkg/utils"
+	"github.com/rs/xid"
 )
 
 /*
@@ -15,6 +17,10 @@ import (
 func NewMessageHandler(hub *Hub, payload *types.EventFormat) error {
 	for client := range hub.clients {
 		if client.Id == payload.Data.R_ID {
+			// set message id
+			payload.Data.M_ID = xid.New().String()
+			// set timestamp
+			payload.Data.Timestamp = utils.GetCurrentTimeStamp()
 			data, err := json.Marshal(payload)
 			if err != nil {
 				// log error
@@ -30,6 +36,8 @@ func NewMessageHandler(hub *Hub, payload *types.EventFormat) error {
 func DeleteMessageHandler(hub *Hub, payload *types.EventFormat) error {
 	for client := range hub.clients {
 		if client.Id == payload.Data.R_ID {
+			// set timestamp
+			payload.Data.Timestamp = utils.GetCurrentTimeStamp()
 			data, err := json.Marshal(payload)
 			if err != nil {
 				// log error
@@ -45,6 +53,8 @@ func DeleteMessageHandler(hub *Hub, payload *types.EventFormat) error {
 func TypingHandler(hub *Hub, payload *types.EventFormat) error {
 	for client := range hub.clients {
 		if client.Id == payload.Data.R_ID {
+			// set timestamp
+			payload.Data.Timestamp = utils.GetCurrentTimeStamp()
 			data, err := json.Marshal(payload)
 			if err != nil {
 				// log error
