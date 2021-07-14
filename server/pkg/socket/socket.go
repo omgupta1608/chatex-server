@@ -10,6 +10,8 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	// Providing nil to the CheckOrigin field, a safe default is used to check the origin
+	CheckOrigin: nil,
 }
 
 var hub *Hub
