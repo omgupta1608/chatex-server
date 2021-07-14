@@ -12,9 +12,7 @@ import (
 )
 
 func main() {
-	buildFlags := config.GetBuildFlags()
-
-	if buildFlags.IsProduction {
+	if config.Flags.IsProduction {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -37,7 +35,7 @@ func main() {
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
-		PORT = buildFlags.Port
+		PORT = config.Flags.Port
 	}
 
 	fmt.Print("Server started at PORT => " + PORT + "\n")
