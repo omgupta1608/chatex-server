@@ -2,7 +2,6 @@ package socket
 
 import (
 	"encoding/json"
-	"errors"
 
 	"github.com/omgupta1608/chatex/server/pkg/exception"
 	"github.com/omgupta1608/chatex/server/pkg/types"
@@ -21,7 +20,7 @@ type (
 )
 
 var (
-	Events = map[string]func(*Hub, map[string]interface{}) error{
+	Events = map[string]func(*Hub, *types.EventFormat) error{
 		types.NEW_MESSAGE:    NewMessageHandler,
 		types.DELETE_MESSAGE: DeleteMessageHandler,
 		types.TYPING:         TypingHandler,
@@ -62,21 +61,29 @@ func (hub *Hub) handleEvent(data []byte) {
 	}
 }
 
-func getEventAndData(data []byte) (string, map[string]interface{}, error) {
-	var msg interface{}
-	if err := json.Unmarshal(data, &msg); err != nil {
+func getEventAndData(data []byte) (string, *types.EventFormat, error) {
+	// var msg interface{}
+	// if err := json.Unmarshal(data, &msg); err != nil {
+	// 	// log error
+	// 	exception.LogError(err, "cannot unmarshal payload", exception.INTERNAL_SOCKET_ERROR)
+	// 	return "", nil, err
+	// }
+	// msgMap := msg.(map[string]interface{})
+	// if msgMap["name"] == "" {
+	// 	// log error (no event)
+	// 	exception.LogError(errors.New("no event provided"), "missing field \"event\"", exception.INTERNAL_SOCKET_ERROR)
+	// 	return "", nil, errors.New("no event provided")
+	// }
+	var payload types.EventFormat
+	if err := json.Unmarshal(data, &payload); err != nil {
 		// log error
 		exception.LogError(err, "cannot unmarshal payload", exception.INTERNAL_SOCKET_ERROR)
 		return "", nil, err
 	}
-	msgMap := msg.(map[string]interface{})
-	if msgMap["name"] == "" {
-		// log error (no event)
-		exception.LogError(errors.New("no event provided"), "missing field \"event\"", exception.INTERNAL_SOCKET_ERROR)
-		return "", nil, errors.New("no event provided")
-	}
 
-	return msgMap["name"].(string), msgMap, nil
+	return payload.Event_Name, &payload, nil
+
+	//	return msgMap["name"].(string), msgMap, nil
 }
 
 func (hub *Hub) run() {

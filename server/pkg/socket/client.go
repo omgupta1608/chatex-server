@@ -6,10 +6,14 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/omgupta1608/chatex/server/pkg/exception"
+	"github.com/rs/xid"
 )
 
 type (
 	Client struct {
+		// client Id
+		Id string
+
 		// the main hub instance
 		hub *Hub
 
@@ -41,7 +45,7 @@ const (
 // )
 
 func newClient(conn *websocket.Conn) *Client {
-	return &Client{conn: conn, hub: hub, send: make(chan []byte, 256)}
+	return &Client{Id: xid.New().String(), conn: conn, hub: hub, send: make(chan []byte, 256)}
 }
 
 /*
