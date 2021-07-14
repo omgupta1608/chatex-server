@@ -23,10 +23,14 @@ func GetJwtSecret() []byte {
 type BuildFlags struct {
 	IsProduction bool
 	Port         string
+	RedisPath    string
+	RedisAuth    string
 }
 
-func GetBuildFlags() BuildFlags {
-	buildFlags := BuildFlags{}
+var Flags BuildFlags
+
+func init() {
+	Flags = BuildFlags{}
 
 	// default value for flags
 	const (
@@ -35,13 +39,15 @@ func GetBuildFlags() BuildFlags {
 	)
 
 	// register flags
-	flag.BoolVar(&buildFlags.IsProduction, "p", isProdDefault, "Compile for production")
-	flag.BoolVar(&buildFlags.IsProduction, "prod", isProdDefault, "Compile for production")
+	flag.BoolVar(&Flags.IsProduction, "p", isProdDefault, "Compile for production")
+	flag.BoolVar(&Flags.IsProduction, "prod", isProdDefault, "Compile for production")
 
-	flag.StringVar(&buildFlags.Port, "P", portDefault, "Set port")
-	flag.StringVar(&buildFlags.Port, "port", portDefault, "Set port")
+	flag.StringVar(&Flags.Port, "P", portDefault, "Set port")
+	flag.StringVar(&Flags.Port, "port", portDefault, "Set port")
+
+	// redis flags
+	flag.StringVar(&Flags.RedisPath, "redispath", "127.0.0.1:6379", "Path to redis cache")
+	flag.StringVar(&Flags.RedisAuth, "redisauth", "", "auth to redis")
 
 	flag.Parse()
-
-	return buildFlags
 }
