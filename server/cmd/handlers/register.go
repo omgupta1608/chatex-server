@@ -12,7 +12,6 @@ import (
 	"github.com/omgupta1608/chatex/server/pkg/types"
 	"github.com/omgupta1608/chatex/server/pkg/validation"
 	"github.com/rs/xid"
-	"google.golang.org/api/iterator"
 )
 
 // ! not for production
@@ -44,20 +43,20 @@ func RegisterRouteHandler(c *gin.Context) {
 	}
 
 	// check if user with similar email/name exists
-	email_iter := firebase.Client.Collection("Users").Where("Email", "==", reqData.Email).Documents(firebase.Ctx)
-	name_iter := firebase.Client.Collection("Users").Where("Name", "==", reqData.Name).Documents(firebase.Ctx)
+	emailIter := firebase.Client.Collection("Users").Where("Email", "==", reqData.Email).Limit(1).Documents(firebase.Ctx)
+	nameIter := firebase.Client.Collection("Users").Where("Name", "==", reqData.Name).Limit(1).Documents(firebase.Ctx)
 
-	_, e_err := email_iter.Next()
-	_, n_err := name_iter.Next()
+	emailDocs, emailErr := emailIter.GetAll()
+	nameDocs, nameErr := nameIter.GetAll()
 
-	// user is found
-	if e_err != iterator.Done || n_err != iterator.Done {
-		exception.SendError(c, http.StatusBadRequest, errors.New("User already exists!"))
+	if emailErr != nil || nameErr != nil {
+		exception.SendError(c, http.StatusInternalServerError, errors.New("Database error"))
 		return
 	}
 
-	if e_err != nil || n_err != nil {
-		exception.SendError(c, http.StatusInternalServerError, errors.New("Something went wrong!"))
+	// name or email exists
+	if len(emailDocs) != 0 || len(nameDocs) != 0 {
+		exception.SendError(c, http.StatusConflict, errors.New("Name or Email already exists"))
 		return
 	}
 
