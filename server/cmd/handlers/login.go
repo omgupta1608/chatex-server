@@ -53,9 +53,12 @@ func LoginRouteHandler(c *gin.Context) {
 		return
 	}
 
+	// remove password from response
+	user.Password = ""
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Login Success",
-		"data":    jwtTokenString,
+		"jwt":     jwtTokenString,
+		"user":    user,
 		"error":   nil,
 	})
 }

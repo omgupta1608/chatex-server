@@ -83,9 +83,11 @@ func RegisterRouteHandler(c *gin.Context) {
 	// TODO: create a verification token & send through email
 	// TODO: store verify token in redis
 
+	// remove password from response
+	newUser.Password = ""
 	c.JSON(http.StatusCreated, gin.H{
-		"data":               newUser.Uid,
 		"message":            "User created",
+		"user":               newUser,
 		"error":              nil,
 		"verification-route": c.FullPath() + "/verify",
 	})
