@@ -32,9 +32,9 @@ const UserAuthForm = ({
 					</p>
 				)}
 				{submitErrMsg && (
-					<p className='submit-err'>
-						<em>{submitErrMsg}</em>
-					</p>
+					<small className='submit-err'>
+						<em>* {submitErrMsg}</em>
+					</small>
 				)}
 			</header>
 

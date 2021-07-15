@@ -1,14 +1,26 @@
 import UserAuthForm from '../Components/UserAuthForm';
 import UserAuthFormInput from '../Components/UserAuthFormInput';
 import UserAuthFormPage from '../Components/UserAuthFormPage';
+import useAuth from '../Hooks/useAuth';
 
 /**
  * user login page
  */
 const LoginPage = () => {
-	const onSubmit = e => {
+	// default redirection is to dashboard
+	const {
+		state: { errorMsg, isLoading },
+		login,
+	} = useAuth();
+
+	const onSubmit = async e => {
 		e.preventDefault();
-		console.log(e.target.checkValidity());
+		const formElement = e.target;
+		if (!formElement.checkValidity()) return;
+
+		const formData = Object.fromEntries(new FormData(formElement));
+
+		login(formData);
 	};
 
 	return (
@@ -17,6 +29,8 @@ const LoginPage = () => {
 				title='Login'
 				showOrButtons={true}
 				onSubmit={onSubmit}
+				submitErrMsg={errorMsg}
+				isLoading={isLoading}
 				description='Login with your email and password'
 			>
 				<UserAuthFormInput

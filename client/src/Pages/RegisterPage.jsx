@@ -1,19 +1,39 @@
 import UserAuthForm from '../Components/UserAuthForm';
 import UserAuthFormInput from '../Components/UserAuthFormInput';
 import UserAuthFormPage from '../Components/UserAuthFormPage';
+import { Redirect } from 'react-router-dom';
+import useAuth from '../Hooks/useAuth';
 
 /**
  * user registeration page
  */
 const RegisterPage = () => {
-	const onSubmit = e => {
+	const {
+		state: { errorMsg, isLoading },
+		register,
+		isUserRegistered,
+	} = useAuth();
+
+	const onSubmit = async e => {
 		e.preventDefault();
-		console.log(e.target.checkValidity());
+		const formElement = e.target;
+		if (!formElement.checkValidity()) return;
+
+		const formData = Object.fromEntries(new FormData(formElement));
+		register(formData);
 	};
 
+	// redirect to verification page if user already registered
+	if (isUserRegistered()) return <Redirect to='/register/verify' />;
 	return (
 		<UserAuthFormPage>
-			<UserAuthForm title='Register' showOrButtons={true} onSubmit={onSubmit}>
+			<UserAuthForm
+				title='Register'
+				showOrButtons={true}
+				onSubmit={onSubmit}
+				isLoading={isLoading}
+				submitErrMsg={errorMsg}
+			>
 				<UserAuthFormInput
 					name='name'
 					id='register-name'
@@ -36,6 +56,7 @@ const RegisterPage = () => {
 					id='register-password'
 					label='Password'
 					autoComplete='new-password'
+					type='password'
 					minLength={8}
 					maxLength={40}
 					required={true}

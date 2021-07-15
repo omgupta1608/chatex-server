@@ -1,7 +1,10 @@
 import './sass/App.scss';
 import { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { RegisterPage, LoginPage, UserVerificationPage } from './Pages';
+import ProvideAuth from './Contexts/ProvideAuth';
+import AuthRoute from './Components/AuthRoute';
+import PrivateRoute from './Components/PrivateRoute';
 
 // ! temperory solution. change this to a contexts
 const themes = {
@@ -21,22 +24,24 @@ function App() {
 	const { theme } = useTheme(themes.DARK);
 
 	return (
-		<div className={`App ${theme}`}>
-			<Router>
-				<Switch>
-					<Route path='/login' exact>
-						<LoginPage />
-					</Route>
-					<Route path='/register' exact>
-						<RegisterPage />
-					</Route>
-					<Route path='/register/verify' exact>
-						<UserVerificationPage />
-					</Route>
-					<Route path='/'>Dashboard</Route>
-				</Switch>
-			</Router>
-		</div>
+		<ProvideAuth>
+			<div className={`App ${theme}`}>
+				<Router>
+					<Switch>
+						<AuthRoute path='/login' exact>
+							<LoginPage />
+						</AuthRoute>
+						<AuthRoute path='/register' exact>
+							<RegisterPage />
+						</AuthRoute>
+						<AuthRoute path='/register/verify' exact>
+							<UserVerificationPage />
+						</AuthRoute>
+						<PrivateRoute path='/'>Dashboard</PrivateRoute>
+					</Switch>
+				</Router>
+			</div>
+		</ProvideAuth>
 	);
 }
 
