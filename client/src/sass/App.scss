@@ -5,7 +5,12 @@
 @use "Components/UserAuthFormInput.scss";
 @use "Components/UserAuthOrButtons.scss";
 @use "Components/LoadingSpinner.scss";
+@use "Pages/MainPage";
 @use "Components/Navbar.scss";
+@use "Components/Sidebar";
+@use "Components/ContactList";
+@use "Components/ContactCard";
+@use "Components/ChatWindow";
 
 /* User Auth Forms Pages */
 /* nothing yet */

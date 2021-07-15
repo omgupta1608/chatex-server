@@ -1,0 +1,35 @@
+@use "../variables"as v;
+
+.contact_list {
+	max-height: 100%;
+	overflow: auto;
+
+	/* width */
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	/* Track */
+	&::-webkit-scrollbar-track {
+		background: v.$white;
+
+		.theme-dark & {
+			background: v.$gray-200;
+		}
+	}
+
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: v.$gray-200;
+
+		.theme-dark & {
+			background: v.$gray-300;
+		}
+	}
+
+	/* Handle on hover */
+	// &::-webkit-scrollbar-thumb:hover {
+	// 	// background: #555;
+	// 	background: v.$white;
+	// }
+}

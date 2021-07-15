@@ -1,7 +1,7 @@
 import './sass/App.scss';
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { RegisterPage, LoginPage, UserVerificationPage } from './Pages';
+import { RegisterPage, LoginPage, UserVerificationPage, MainPage } from './Pages';
 
 // ! temperory solution. change this to a contexts
 const themes = {
@@ -33,7 +33,7 @@ function App() {
 					<Route path='/register/verify' exact>
 						<UserVerificationPage />
 					</Route>
-					<Route path='/'>Dashboard</Route>
+					<Route path='/'><MainPage/></Route>
 				</Switch>
 			</Router>
 		</div>

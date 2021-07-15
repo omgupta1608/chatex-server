@@ -1,0 +1,13 @@
+@use "../variables" as v;
+
+.sidebar {
+	// height: calc(100vh - v.$navbar-height);
+	height: calc(100vh - 50px);
+	max-height: calc(100vh - 50px);
+	// overflow: auto;
+	flex: 1;
+	min-width: 250px;
+	max-width: 400px;
+	background-color: salmon;
+
+}
