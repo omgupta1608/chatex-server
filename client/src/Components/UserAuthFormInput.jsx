@@ -32,7 +32,7 @@ const useInputFieldWithErr = () => {
  * @param {string} props.label label for input
  * @param {string} props.id id of input
  */
-const UserFormInput = ({ id, name, label, ...additionalAttributes }) => {
+const UserAuthFormInput = ({ id, name, label, ...additionalAttributes }) => {
 	const { inputValue, onInputChange, onInputBlur, showErr, errMessage } =
 		useInputFieldWithErr();
 
@@ -58,4 +58,4 @@ const UserFormInput = ({ id, name, label, ...additionalAttributes }) => {
 	);
 };
 
-export default UserFormInput;
+export default UserAuthFormInput;

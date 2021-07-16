@@ -18,9 +18,9 @@ type UserVerificationReqData struct {
 }
 
 type EditUserProfileReqData struct {
-	Name       string `json:"name,string" validate:"required,min=3,max=15"`
-	About      string `json:"about,string" validate:"required,min=3,max=40"`
-	ProfilePic string `json:"profile_pic,string" validate:"uri"`
+	Name       string `json:"name" validate:"required,min=3,max=15"`
+	About      string `json:"about" validate:"required,min=3,max=40"`
+	ProfilePic string `json:"profile_pic" validate:"uri"`
 }
 
 type ChangePasswordReqData struct {

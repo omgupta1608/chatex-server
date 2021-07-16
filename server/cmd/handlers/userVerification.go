@@ -59,9 +59,12 @@ func UserVerificationRouteHandler(c *gin.Context) {
 		return
 	}
 
+	// remove password from response
+	user.Password = ""
 	c.JSON(http.StatusOK, gin.H{
-		"data":    jwtTokenString,
 		"message": "Login Success",
+		"jwt":     jwtTokenString,
+		"user":    user,
 		"error":   nil,
 	})
 }

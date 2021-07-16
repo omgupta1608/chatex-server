@@ -18,9 +18,10 @@
 	 - Response
 	  ```
 		{
-				"data":               	id uid of registered user,
+				"user":               	user data which was just created,
 				"message":            	Relevant message from the server,
 				"error":              	Relevant error from the server, if any (can be NULL),
+				"error_fields":					Req data fields which failed validation
 				"verification-route": 	Points to the route to verify a user,
 		}
 		```
@@ -38,9 +39,11 @@
 	 - Response
 	  ```
 		{
-				"data":               unique jwt token for user auth,
+				"jwt":              	unique jwt token for user auth,
+				"user":								logged in user's data
 				"message":            Relevant message from the server,
 				"error":              Relevant error from the server, if any (can be NULL),
+				"error_fields":				Req data fields which failed validation
 		}
 		```
  - Login a user
@@ -57,9 +60,11 @@
 	 - Response
 	  ```
 		{
-				"data":               unique jwt token for user auth,
+				"jwt":              	unique jwt token for user auth,
+				"user":								logged in user's data
 				"message":            Relevant message from the server,
 				"error":              Relevant error from the server, if any (can be NULL),
+				"error_fields":				Req data fields which failed validation
 		}
 		```
  - Get User By Id

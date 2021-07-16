@@ -1,0 +1,35 @@
+@use "sass:color";
+
+// colors
+$white: hsl(0, 0%, 93%);
+$white-200: color.scale($white, $lightness: 40%);
+$white-300: color.scale($white, $lightness: 20%);
+$white-500: color.scale($white, $lightness: -20%);
+$white-600: color.scale($white, $lightness: -40%);
+
+$gray: hsl(217, 10%, 25%);
+$gray-200: color.scale($gray, $lightness: 40%);
+$gray-300: color.scale($gray, $lightness: 20%);
+$gray-600: color.scale($gray, $lightness: -40%);
+
+$black: hsl(216, 18%, 16%);
+$black-200: color.scale($black, $lightness: 40%);
+$black-300: color.scale($black, $lightness: 20%);
+$black-600: color.scale($black, $lightness: -40%);
+
+$green: hsl(166, 100%, 34%);
+$green-200: color.scale($green, $lightness: 40%);
+$green-300: color.scale($green, $lightness: 20%);
+$green-600: color.scale($green, $lightness: -40%);
+
+// user form input
+$input-border: 1px solid $white-600;
+$input-border-dark: 1px solid $white-500;
+
+$input-outline: 2px solid $green;
+$input-outline-dark: 2px solid $green-300;
+
+$input-border-radius: 100rem;
+
+// navbar
+$navbar-height: 50px;
