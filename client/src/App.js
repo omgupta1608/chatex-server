@@ -1,7 +1,7 @@
 import './sass/App.scss';
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { RegisterPage, LoginPage, UserVerificationPage } from './Pages';
+import { RegisterPage, LoginPage, UserVerificationPage, MainPage } from './Pages';
 import ProvideAuth from './Contexts/ProvideAuth';
 import AuthRoute from './Components/AuthRoute';
 import PrivateRoute from './Components/PrivateRoute';
@@ -37,7 +37,7 @@ function App() {
 						<AuthRoute path='/register/verify' exact>
 							<UserVerificationPage />
 						</AuthRoute>
-						<PrivateRoute path='/'>Dashboard</PrivateRoute>
+						<PrivateRoute path='/'><MainPage /></PrivateRoute>
 					</Switch>
 				</Router>
 			</div>
