@@ -5,6 +5,7 @@ import (
 
 	"github.com/omgupta1608/chatex/server/pkg/exception"
 	"github.com/omgupta1608/chatex/server/pkg/types"
+	"github.com/omgupta1608/chatex/server/pkg/utils"
 )
 
 type (
@@ -92,6 +93,59 @@ func (hub *Hub) run() {
 		// handle client registration
 		case client := <-hub.register:
 			hub.clients[client] = true
+			// send client its Id
+			response := &types.EventFormat{
+				Event_Name: "REGISTER_CLIENT",
+				Data: types.Message{
+					CLIENT_CHAT_ID:  "",
+					SERVER_CHAT_ID:  "",
+					S_ID:            "SERVER",
+					R_ID:            client.Id,
+					Content:         "",
+					ServerTimestamp: utils.GetCurrentUnixTimeStamp(),
+					Message_Type:    "event",
+					Data:            nil,
+				},
+			}
+			rByte, err := json.Marshal(response)
+			if err != nil {
+				// log error
+				exception.LogError(err, "cannot marshal socket response", exception.INTERNAL_SOCKET_ERROR)
+				// close connection
+
+			}
+			client.send <- rByte
+
+			// get undelivered messages
+			msgs, er := GetUnDeliveredMessages(hub, client)
+			if er != nil {
+				// log error
+				exception.LogError(err, "cannot get undelivered messages", exception.INTERNAL_SOCKET_ERROR)
+				// close connection
+
+			}
+
+			response = &types.EventFormat{
+				Event_Name: "GET_UD_MESSAGES",
+				Data: types.Message{
+					CLIENT_CHAT_ID:  "",
+					SERVER_CHAT_ID:  "",
+					S_ID:            "SERVER",
+					R_ID:            client.Id,
+					Content:         "",
+					ServerTimestamp: utils.GetCurrentUnixTimeStamp(),
+					Message_Type:    "event",
+					Data:            msgs,
+				},
+			}
+			rByte, err = json.Marshal(response)
+			if err != nil {
+				// log error
+				exception.LogError(err, "cannot marshal socket response", exception.INTERNAL_SOCKET_ERROR)
+				// close connection
+
+			}
+			client.send <- rByte
 
 		// handle client unregistration (disconnection)
 		case client := <-hub.unregister:
