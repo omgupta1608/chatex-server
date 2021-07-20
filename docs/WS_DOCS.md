@@ -24,7 +24,8 @@ The implementation is quite simple and easy to understand just by looking at the
   ```
   "name":         Name of the event (NEW_MESSAGE | DELETE_MESSAGE | TYPING | USER_CONN),
   "data": {
-      "mid":        Message Id (Id of new message | Id of message to delete | "" in case of typing and user_conn),
+      "scid":        Server Chat Id (Id of new message | Id of message to delete | "" in case of typing and user_conn),
+      "ccid":       Client Chat Id (Id of new message | Id of message to delete | "" in case of typing and user_conn),
       "sid":        Sender Id ("SERVER" in case on payload being sent by the server),
       "rid":        Reciever Id,
       "content":    Content of the message ("" is case of typing, user_conn and delete msg),
